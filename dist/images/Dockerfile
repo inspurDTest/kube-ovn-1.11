@@ -1,7 +1,7 @@
 # syntax = docker/dockerfile:experimental
 FROM ubuntu:22.04 as ovs-builder
 
-ARG ARCH=amd64
+ARG ARCH
 ARG NO_AVX512=false
 ARG DEBIAN_FRONTEND=noninteractive
 ENV SRC_DIR='/usr/src'
@@ -95,13 +95,13 @@ RUN mkdir -p /var/run/openvswitch && \
     mkdir -p /etc/cni/net.d && \
     mkdir -p /opt/cni/bin
 
-ARG ARCH=amd64
+ARG ARCH
 ENV CNI_VERSION=v1.2.0
-RUN curl -sSf -L --retry 5 https://github.com/containernetworking/plugins/releases/download/${CNI_VERSION}/cni-plugins-linux-${ARCH}-${CNI_VERSION}.tgz | tar -xz -C . ./loopback ./portmap ./macvlan
+RUN curl -sSf -L --retry 5 https://github.com/containernetworking/plugins/releases/download/${CNI_VERSION}/cni-plugins-linux-amd64-${CNI_VERSION}.tgz | tar -xz -C . ./loopback ./portmap ./macvlan
 
 ENV KUBE_VERSION="v1.28.2"
 
-RUN curl -L https://dl.k8s.io/${KUBE_VERSION}/kubernetes-client-linux-${ARCH}.tar.gz | tar -xz -C . && cp ./kubernetes/client/bin/kubectl /usr/bin/kubectl \
+RUN curl -L https://dl.k8s.io/${KUBE_VERSION}/kubernetes-client-linux-amd64.tar.gz | tar -xz -C . && cp ./kubernetes/client/bin/kubectl /usr/bin/kubectl \
  && chmod +x /usr/bin/kubectl && rm -rf ./kubernetes
 
 RUN --mount=type=bind,target=/packages,from=ovs-builder,source=/packages  \

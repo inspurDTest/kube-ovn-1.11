@@ -1577,25 +1577,24 @@ jobs:
           COMMIT: ${{ github.sha }}
         run: |
           cat VERSION
-          TAG=$(cat VERSION)
-          echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-          docker tag kubeovn/kube-ovn:$TAG kubeovn/kube-ovn-dev:$COMMIT-x86
-          docker tag kubeovn/kube-ovn:$TAG kubeovn/kube-ovn:$TAG-x86
-          docker tag kubeovn/kube-ovn:$TAG-debug kubeovn/kube-ovn:$TAG-debug-x86
-          docker tag kubeovn/vpc-nat-gateway:$TAG kubeovn/vpc-nat-gateway-dev:$COMMIT-x86
-          docker tag kubeovn/vpc-nat-gateway:$TAG kubeovn/vpc-nat-gateway:$TAG-x86
-          docker tag kubeovn/centos7-compile:$TAG kubeovn/centos7-compile-dev:$TAG-x86
-          docker tag kubeovn/centos7-compile:$TAG kubeovn/centos7-compile:$TAG-x86
+          TAG=$(cat VERSION) 
+          docker login -u inspurwyd  -p  dckr_pat_yMRt21vCZj0PlDl14xJiqSOHeV
+          docker tag kubeovn/kube-ovn:$TAG inspurwyd/kube-ovn-dev:$COMMIT-x86
+          docker tag kubeovn/kube-ovn:$TAG inspurwyd/kube-ovn:$TAG-x86
+          docker tag kubeovn/kube-ovn:$TAG-debug inspurwyd/kube-ovn:$TAG-debug-x86
+          docker tag kubeovn/vpc-nat-gateway:$TAG inspurwyd/vpc-nat-gateway-dev:$COMMIT-x86
+          docker tag kubeovn/vpc-nat-gateway:$TAG inspurwyd/vpc-nat-gateway:$TAG-x86
+          docker tag kubeovn/centos7-compile:$TAG inspurwyd/centos7-compile-dev:$TAG-x86
+          docker tag kubeovn/centos7-compile:$TAG inspurwyd/centos7-compile:$TAG-x86
           # docker tag kubeovn/centos8-compile:$TAG kubeovn/centos8-compile-dev:$TAG-x86
           # docker tag kubeovn/centos8-compile:$TAG kubeovn/centos8-compile:$TAG-x86
           docker images
-          docker push kubeovn/kube-ovn:$TAG-x86
-          docker push kubeovn/kube-ovn:$TAG-no-avx512
-          docker push kubeovn/kube-ovn-dev:$COMMIT-x86
-          docker push kubeovn/kube-ovn:$TAG-debug-x86
-          docker push kubeovn/vpc-nat-gateway:$TAG-x86
-          docker push kubeovn/vpc-nat-gateway-dev:$COMMIT-x86
-          docker push kubeovn/centos7-compile:$TAG-x86
-          docker push kubeovn/centos7-compile-dev:$TAG-x86
+          docker push inspurwyd/kube-ovn:$TAG-x86
+          docker push inspurwyd/kube-ovn-dev:$COMMIT-x86
+          docker push inspurwyd/kube-ovn:$TAG-debug-x86
+          docker push inspurwyd/vpc-nat-gateway:$TAG-x86
+          docker push inspurwyd/vpc-nat-gateway-dev:$COMMIT-x86
+          docker push inspurwyd/centos7-compile:$TAG-x86
+          docker push inspurwyd/centos7-compile-dev:$TAG-x86
           # docker push kubeovn/centos8-compile:$TAG-x86
           # docker push kubeovn/centos8-compile-dev:$TAG-x86

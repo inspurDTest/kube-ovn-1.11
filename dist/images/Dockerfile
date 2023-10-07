@@ -6,10 +6,10 @@ ARG NO_AVX512=false
 ARG DEBIAN_FRONTEND=noninteractive
 ENV SRC_DIR='/usr/src'
 
-RUN apt update && apt install build-essential git libnuma-dev autoconf curl \
-    python3 libmnl-dev libpcap-dev libtool libcap-ng-dev libssl-dev pkg-config \
-    python3-six libunbound-dev libunwind-dev dh-make fakeroot debhelper dh-python \
-    flake8 python3-sphinx graphviz groff wget -y
+RUN apt install -y build-essential fakeroot \
+    autoconf automake bzip2 debhelper-compat dh-exec dh-python dh-sequence-python3 dh-sequence-sphinxdoc \
+    graphviz iproute2 libcap-ng-dev libdbus-1-dev libnuma-dev libpcap-dev libssl-dev libtool libunbound-dev \
+    openssl pkg-config procps python3-all-dev python3-setuptools python3-sortedcontainers python3-sphinx
 
 RUN cd /usr/src/ && \
     git clone --branch v3.0.4 --depth=1 https://github.com/openvswitch/ovs.git && \

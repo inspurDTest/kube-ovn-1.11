@@ -6,7 +6,7 @@ ARG NO_AVX512=false
 ARG DEBIAN_FRONTEND=noninteractive
 ENV SRC_DIR='/usr/src'
 
-RUN apt install -y build-essential fakeroot \
+RUN apt update && apt install -y git curl build-essential fakeroot \
     autoconf automake bzip2 debhelper-compat dh-exec dh-python dh-sequence-python3 dh-sequence-sphinxdoc \
     graphviz iproute2 libcap-ng-dev libdbus-1-dev libnuma-dev libpcap-dev libssl-dev libtool libunbound-dev \
     openssl pkg-config procps python3-all-dev python3-setuptools python3-sortedcontainers python3-sphinx

@@ -15,11 +15,11 @@ RUN cd /usr/src/ && \
     git clone --branch v3.0.4 --depth=1 https://github.com/openvswitch/ovs.git && \
     cd ovs && \
     # ovsdb-idl: Support write-only-changed IDL monitor mode
-    curl -s https://github.com/kubeovn/ovs/commit/bef703ef862fbbf8740b8d5bf6ca8df9ed617da5.patch | git apply && \
+    # curl -s https://github.com/kubeovn/ovs/commit/bef703ef862fbbf8740b8d5bf6ca8df9ed617da5.patch | git apply && \
     # fix memleak
     curl -s https://github.com/kubeovn/ovs/commit/3cf5c5236494b5f54dd2c363f2b547f9d90b372d.patch | git apply && \
     # fix log file descriptor leak in monitor process
-    curl -s https://github.com/kubeovn/ovs/commit/9bce4a9bced0d699ebbb2893bc68448bb0243846.patch | git apply && \
+    # curl -s https://github.com/kubeovn/ovs/commit/9bce4a9bced0d699ebbb2893bc68448bb0243846.patch | git apply && \
     # increase election timer
     curl -s https://github.com/kubeovn/ovs/commit/28ee0fc71cd4256fc422fff30d13e2aa0028cfca.patch | git apply && \
     # add fdb update logging
@@ -50,9 +50,9 @@ RUN cd /usr/src/ && git clone --branch v22.09.1 --depth=1 https://github.com/ovn
     # fix ssl listen address
     curl -s https://github.com/kubeovn/ovn/commit/dca043b2c35756fd370214fc40d61f755bd3a66f.patch | git apply && \
     # ovn-controller: Add a generic way to check if the daemon started recently.
-    curl -s https://github.com/kubeovn/ovn/commit/54c478d38ec31c900d54d29c557bf414f5194baf.patch | git apply && \
+    # curl -s https://github.com/kubeovn/ovn/commit/54c478d38ec31c900d54d29c557bf414f5194baf.patch | git apply && \
     # patch.c: Avoid patch interface deletion & recreation during restart.
-    curl -s https://github.com/kubeovn/ovn/commit/03a46942b9e14d77a23313c193fe062ccafa4769.patch | git apply && \
+    # curl -s https://github.com/kubeovn/ovn/commit/03a46942b9e14d77a23313c193fe062ccafa4769.patch | git apply && \
     # change hash type from dp_hash to hash with field src_ip
     curl -s https://github.com/kubeovn/ovn/commit/168a3f20579b720370f137c82c04cf3b1a9811e2.patch | git apply && \
     # set ether dst addr for dnat on logical switch

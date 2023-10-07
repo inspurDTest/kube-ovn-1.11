@@ -1,7 +1,7 @@
 # syntax = docker/dockerfile:experimental
 FROM ubuntu:22.04 as ovs-builder
 
-ARG ARCH
+ARG ARCH=amd64
 ARG NO_AVX512=false
 ARG DEBIAN_FRONTEND=noninteractive
 ENV SRC_DIR='/usr/src'
@@ -95,7 +95,7 @@ RUN mkdir -p /var/run/openvswitch && \
     mkdir -p /etc/cni/net.d && \
     mkdir -p /opt/cni/bin
 
-ARG ARCH
+ARG ARCH=amd64
 ENV CNI_VERSION=v1.2.0
 RUN curl -sSf -L --retry 5 https://github.com/containernetworking/plugins/releases/download/${CNI_VERSION}/cni-plugins-linux-${ARCH}-${CNI_VERSION}.tgz | tar -xz -C . ./loopback ./portmap ./macvlan
 

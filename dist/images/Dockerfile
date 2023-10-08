@@ -19,6 +19,8 @@ RUN apt install -y build-essential fakeroot \
 RUN cd /usr/src/ovs && \
     chmod a+x boot.sh && \
     chmod a+x debian/rules && \
+    chmod a+x debian/openvswitch-switch.install && \
+    chmod a+x debian/openvswitch-switch-dpdk.install && \
     ./boot.sh && \
     ./configure && \
     rm -rf .git && \

@@ -73,7 +73,7 @@ RUN cd /usr/src/ && git clone --branch v22.09.1 --depth=1 https://github.com/ovn
     OVSDIR=/usr/src/ovs EXTRA_CONFIGURE_OPTS=$CONFIGURE_OPTS DEB_BUILD_OPTIONS='parallel=8 nocheck' fakeroot debian/rules binary
 
 RUN mkdir /packages/ && \
-     cp /usr/src/libopenvswitch*deb /packages && \
+     # cp /usr/src/libopenvswitch*deb /packages && \
      cp /usr/src/openvswitch-*deb /packages && \
      cp /usr/src/python3-openvswitch*deb /packages && \
      cp /usr/src/ovn-*deb /packages && \

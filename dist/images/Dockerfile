@@ -2,40 +2,22 @@
 FROM ubuntu:22.04 as ovs-builder
 
 ARG ARCH
-ARG NO_AVX512=false
 ARG DEBIAN_FRONTEND=noninteractive
 ENV SRC_DIR='/usr/src'
 
-RUN apt update && apt install -y git curl build-essential fakeroot \
+RUN apt update && apt install -y git curl
+
+RUN cd /usr/src/ && git clone https://github.com/inspurDTest/openvswitch.git && mv openvswitch ovs
+
+RUN cd /usr/src/ && git clone https://github.com/inspurDTest/ovn-22.09.1.git && mv ovn-22.09.1 ovn
+
+RUN apt install -y build-essential fakeroot \
     autoconf automake bzip2 debhelper-compat dh-exec dh-python dh-sequence-python3 dh-sequence-sphinxdoc \
     graphviz iproute2 libcap-ng-dev libdbus-1-dev libnuma-dev libpcap-dev libssl-dev libtool libunbound-dev \
     openssl pkg-config procps python3-all-dev python3-setuptools python3-sortedcontainers python3-sphinx
 
-RUN cd /usr/src/ && \
-    git clone --depth=1 https://github.com/inspurDTest/openvswitch.git && \
-    cd openvswitch && \
-    # ovsdb-idl: Support write-only-changed IDL monitor mode
-    # curl -s https://github.com/kubeovn/ovs/commit/bef703ef862fbbf8740b8d5bf6ca8df9ed617da5.patch | git apply && \
-    # fix memleak
-    #   curl -s https://github.com/kubeovn/ovs/commit/3cf5c5236494b5f54dd2c363f2b547f9d90b372d.patch | git apply && \
-    # fix log file descriptor leak in monitor process
-    # curl -s https://github.com/kubeovn/ovs/commit/9bce4a9bced0d699ebbb2893bc68448bb0243846.patch | git apply && \
-    # increase election timer
-    #    curl -s https://github.com/kubeovn/ovs/commit/28ee0fc71cd4256fc422fff30d13e2aa0028cfca.patch | git apply && \
-    # add fdb update logging
-    #    curl -s https://github.com/kubeovn/ovs/commit/e3ed5ec298e2427b77dd2252e8c2218894e45220.patch | git apply && \
-    # fdb: fix mac learning in environments with hairpin enabled
-    #    curl -s https://github.com/kubeovn/ovs/commit/b721a251dadfb0857a2aebe32611d18ca935421f.patch | git apply && \
-    # ovsdb-tool: add optional server id parameter for "join-cluster" command
-    #    curl -s https://github.com/kubeovn/ovs/commit/0664cbe47d1684ca5b7147e3449779635454970e.patch | git apply && \
-    # ovsdb-tool: add command fix-cluster
-    #    curl -s https://github.com/kubeovn/ovs/commit/f52c239f5ded40b503e4d217f916b46ca413da4c.patch | git apply && \
-    # fix memory leak in qos
-    #    curl -s https://github.com/kubeovn/ovs/commit/6a4dd2f4b9311a227cc26fef7c398ae9b241311b.patch | git apply && \
-    # compile without avx512
-    #    if [ "$ARCH" = "amd64" -a "$NO_AVX512" = "true" ]; then curl -s https://github.com/kubeovn/ovs/commit/f61283c8934589fe6de2b1e86041204dfc31a3e3.patch | git apply; fi && \
+RUN cd /usr/src/ovs && \
     chmod a+x boot.sh && \
-    chmod a+x build-aux/* && \
     chmod a+x debian/rules && \
     ./boot.sh && \
     ./configure && \
@@ -46,49 +28,27 @@ RUN cd /usr/src/ && \
 
 RUN dpkg -i /usr/src/python3-openvswitch*.deb
 
-RUN cd /usr/src/ && git clone --depth=1 https://github.com/inspurDTest/ovn-22.09.1.git && \
-    cd ovn-22.09.1 && \
-    # python: Rename build related code to ovs_build_helpers.
-    #    curl -s https://github.com/kubeovn/ovn/commit/9d961aec6fd7ef3e3002bc34e285833279e989c2.patch | git apply && \
-    # fix ssl listen address
-    #    curl -s https://github.com/kubeovn/ovn/commit/dca043b2c35756fd370214fc40d61f755bd3a66f.patch | git apply && \
-    # ovn-controller: Add a generic way to check if the daemon started recently.
-    # curl -s https://github.com/kubeovn/ovn/commit/54c478d38ec31c900d54d29c557bf414f5194baf.patch | git apply && \
-    # patch.c: Avoid patch interface deletion & recreation during restart.
-    # curl -s https://github.com/kubeovn/ovn/commit/03a46942b9e14d77a23313c193fe062ccafa4769.patch | git apply && \
-    # change hash type from dp_hash to hash with field src_ip
-    #    curl -s https://github.com/kubeovn/ovn/commit/168a3f20579b720370f137c82c04cf3b1a9811e2.patch | git apply && \
-    # set ether dst addr for dnat on logical switch
-    #    curl -s https://github.com/kubeovn/ovn/commit/c1d265adc1b148a4c3fb07b9e1b172e1fdf99be4.patch | git apply && \
-    # modify src route priority
-    #    curl -s https://github.com/kubeovn/ovn/commit/ab0818fed95fa3633f8c52e4afb1f8c19ff5ef1f.patch | git apply && \
-    # fix reaching resubmit limit in underlay
-    #    curl -s https://github.com/kubeovn/ovn/commit/8b5084a55ca3f68f46530f43310ae2eae74322d2.patch | git apply && \
-    # do not remove LB if vips is empty
-    #    curl -s https://github.com/kubeovn/ovn/commit/472809ebc83588cf321935804f171b271fd81476.patch | git apply && \
-    # ovn-controller: do not send GARP on localnet for Kube-OVN ports
-    #    curl -s https://github.com/kubeovn/ovn/commit/1792621bf33a661d66ca47620871668267e3e521.patch | git apply && \
+RUN cd /usr/src/ovn && \
     chmod a+x boot.sh && \
     sed -i 's/OVN/ovn/g' debian/changelog && \
     rm -rf .git && \
     ./boot.sh && \
-    CONFIGURE_OPTS='--with-ovs-build=/usr/src/openvswitch/_debian' && \
+    CONFIGURE_OPTS='--with-ovs-build=/usr/src/ovs/_debian' && \
     if [ "$ARCH" = "amd64" ]; then CONFIGURE_OPTS="$CONFIGURE_OPTS CFLAGS='-O2 -g -msse4.2 -mpopcnt -fPIC'"; fi && \
     OVSDIR=/usr/src/ovs EXTRA_CONFIGURE_OPTS=$CONFIGURE_OPTS DEB_BUILD_OPTIONS='parallel=8 nocheck' fakeroot debian/rules binary
 
 RUN mkdir /packages/ && \
-     # cp /usr/src/libopenvswitch*deb /packages && \
-     cp /usr/src/openvswitch-*deb /packages && \
-     cp /usr/src/python3-openvswitch*deb /packages && \
-     cp /usr/src/ovn-*deb /packages && \
-     cd /packages && rm -f *datapath* *docker* *vtep* *test* *dev*
+    cp /usr/src/openvswitch-*deb /packages && \
+    cp /usr/src/python3-openvswitch*deb /packages && \
+    cp /usr/src/ovn-*deb /packages && \
+    cd /packages && rm -f *source* *doc* *datapath* *docker* *vtep* *test* *dev*
 
 FROM ubuntu:22.04
 
 ARG DEBIAN_FRONTEND=noninteractive
 RUN apt update && apt upgrade -y && apt install ca-certificates python3 hostname libunwind8 netbase \
         ethtool iproute2 ncat libunbound-dev procps libatomic1 kmod iptables python3-netifaces python3-sortedcontainers \
-        libjs-sphinxdoc tcpdump ipset curl uuid-runtime openssl inetutils-ping arping ndisc6 \
+        tcpdump ipset curl uuid-runtime openssl inetutils-ping arping ndisc6 \
         logrotate dnsutils net-tools strongswan strongswan-pki libcharon-extra-plugins \
         libcharon-extauth-plugins libstrongswan-extra-plugins libstrongswan-standard-plugins -y --no-install-recommends && \
         rm -rf /var/lib/apt/lists/* && \
@@ -100,27 +60,18 @@ RUN mkdir -p /var/run/openvswitch && \
     mkdir -p /opt/cni/bin
 
 ARG ARCH
-ENV CNI_VERSION=v1.2.0
-RUN curl -sSf -L --retry 5 https://github.com/containernetworking/plugins/releases/download/${CNI_VERSION}/cni-plugins-linux-amd64-${CNI_VERSION}.tgz | tar -xz -C . ./loopback ./portmap ./macvlan
+ENV CNI_VERSION=v1.3.0
+RUN curl -sSf -L --retry 5 https://github.com/containernetworking/plugins/releases/download/${CNI_VERSION}/cni-plugins-linux-${ARCH}-${CNI_VERSION}.tgz | tar -xz -C . ./loopback ./portmap ./macvlan
 
 ENV KUBE_VERSION="v1.28.2"
 
-RUN curl -L https://dl.k8s.io/${KUBE_VERSION}/kubernetes-client-linux-amd64.tar.gz | tar -xz -C . && cp ./kubernetes/client/bin/kubectl /usr/bin/kubectl \
+RUN curl -L https://dl.k8s.io/${KUBE_VERSION}/kubernetes-client-linux-${ARCH}.tar.gz | tar -xz -C . && cp ./kubernetes/client/bin/kubectl /usr/bin/kubectl \
  && chmod +x /usr/bin/kubectl && rm -rf ./kubernetes
 
-RUN --mount=type=bind,target=/packages,from=ovs-builder,source=/packages  \
-    # dpkg -i /packages/libopenvswitch*.deb && \
-    dpkg -i /packages/python3-openvswitch*.deb && \
-    dpkg -i /packages/openvswitch-*.deb && \
-    dpkg -i --ignore-depends=openvswitch-switch,openvswitch-common /packages/ovn-*.deb && \
-    # mv /usr/lib/python3.7/dist-packages/ovs /usr/lib/python3/dist-packages/ && \
-    rm -rf /var/lib/openvswitch/pki/
-
-ENV DUMB_INIT_VERSION="1.2.5"
-RUN dump_arch="x86_64"; \
-    if [ "$ARCH" = "arm64" ]; then dump_arch="aarch64"; fi; \
-    curl -sSf -L --retry 5 -o /usr/bin/dumb-init https://github.com/Yelp/dumb-init/releases/download/v${DUMB_INIT_VERSION}/dumb-init_${DUMB_INIT_VERSION}_${dump_arch} && \
-    chmod +x /usr/bin/dumb-init
+ENV BFDD_VERSION="v0.5.4"
+RUN curl -sSf -L --retry 3 -o /usr/local/bin/bfdd-control https://github.com/bobz965/bfd-binary-for-kube-ovn-cni/releases/download/${BFDD_VERSION}/bfdd-control && \
+    curl -sSf -L --retry 3 -o /usr/local/bin/bfdd-beacon https://github.com/bobz965/bfd-binary-for-kube-ovn-cni/releases/download/${BFDD_VERSION}/bfdd-beacon && \
+    chmod +x /usr/local/bin/bfdd-control /usr/local/bin/bfdd-beacon
 
 RUN --mount=type=bind,target=/packages,from=ovs-builder,source=/packages  \
     dpkg -i /packages/openvswitch-*.deb /packages/python3-openvswitch*.deb && \
@@ -134,5 +85,3 @@ RUN --mount=type=bind,target=/packages,from=ovs-builder,source=/packages \
         rm -rf /var/lib/apt/lists/* && \
         dpkg -i --ignore-depends=openvswitch-switch,openvswitch-common /packages/*.ddeb; \
     fi
-
-ENTRYPOINT ["/usr/bin/dumb-init", "--"]

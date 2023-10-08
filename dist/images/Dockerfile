@@ -40,7 +40,7 @@ RUN cd /usr/src/ && git clone --depth=1 https://github.com/inspurDTest/ovn-22.09
     ./boot.sh && \
     CONFIGURE_OPTS='--with-ovs-build=/usr/src/openvswitch/_debian' && \
     if [ "$ARCH" = "amd64" ]; then CONFIGURE_OPTS="$CONFIGURE_OPTS CFLAGS='-O2 -g -msse4.2 -mpopcnt -fPIC'"; fi && \
-    OVSDIR=/usr/src/ovs EXTRA_CONFIGURE_OPTS=$CONFIGURE_OPTS DEB_BUILD_OPTIONS='parallel=8 nocheck' fakeroot debian/rules binary
+    OVSDIR=/usr/src/openvswitch EXTRA_CONFIGURE_OPTS=$CONFIGURE_OPTS DEB_BUILD_OPTIONS='parallel=8 nocheck' fakeroot debian/rules binary
 
 RUN mkdir /packages/ && \
      # cp /usr/src/libopenvswitch*deb /packages && \

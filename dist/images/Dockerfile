@@ -18,6 +18,8 @@ RUN cd /usr/src/ && \
     chmod a+x debian/rules && \
     chmod a+x debian/openvswitch-switch-dpdk.install && \
     chmod a+x debian/openvswitch-switch.install && \
+    chmod a+x build-aux/cksum-schema-check && \
+    chmod a+x build-aux/calculate-schema-cksum && \
     ./boot.sh && \
     ./configure && \
     rm -rf .git && \

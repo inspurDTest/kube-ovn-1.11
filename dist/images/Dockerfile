@@ -17,23 +17,23 @@ RUN cd /usr/src/ && \
     # ovsdb-idl: Support write-only-changed IDL monitor mode
     # curl -s https://github.com/kubeovn/ovs/commit/bef703ef862fbbf8740b8d5bf6ca8df9ed617da5.patch | git apply && \
     # fix memleak
-    curl -s https://github.com/kubeovn/ovs/commit/3cf5c5236494b5f54dd2c363f2b547f9d90b372d.patch | git apply && \
+    #   curl -s https://github.com/kubeovn/ovs/commit/3cf5c5236494b5f54dd2c363f2b547f9d90b372d.patch | git apply && \
     # fix log file descriptor leak in monitor process
     # curl -s https://github.com/kubeovn/ovs/commit/9bce4a9bced0d699ebbb2893bc68448bb0243846.patch | git apply && \
     # increase election timer
-    curl -s https://github.com/kubeovn/ovs/commit/28ee0fc71cd4256fc422fff30d13e2aa0028cfca.patch | git apply && \
+    #    curl -s https://github.com/kubeovn/ovs/commit/28ee0fc71cd4256fc422fff30d13e2aa0028cfca.patch | git apply && \
     # add fdb update logging
-    curl -s https://github.com/kubeovn/ovs/commit/e3ed5ec298e2427b77dd2252e8c2218894e45220.patch | git apply && \
+    #    curl -s https://github.com/kubeovn/ovs/commit/e3ed5ec298e2427b77dd2252e8c2218894e45220.patch | git apply && \
     # fdb: fix mac learning in environments with hairpin enabled
-    curl -s https://github.com/kubeovn/ovs/commit/b721a251dadfb0857a2aebe32611d18ca935421f.patch | git apply && \
+    #    curl -s https://github.com/kubeovn/ovs/commit/b721a251dadfb0857a2aebe32611d18ca935421f.patch | git apply && \
     # ovsdb-tool: add optional server id parameter for "join-cluster" command
-    curl -s https://github.com/kubeovn/ovs/commit/0664cbe47d1684ca5b7147e3449779635454970e.patch | git apply && \
+    #    curl -s https://github.com/kubeovn/ovs/commit/0664cbe47d1684ca5b7147e3449779635454970e.patch | git apply && \
     # ovsdb-tool: add command fix-cluster
-    curl -s https://github.com/kubeovn/ovs/commit/f52c239f5ded40b503e4d217f916b46ca413da4c.patch | git apply && \
+    #    curl -s https://github.com/kubeovn/ovs/commit/f52c239f5ded40b503e4d217f916b46ca413da4c.patch | git apply && \
     # fix memory leak in qos
-    curl -s https://github.com/kubeovn/ovs/commit/6a4dd2f4b9311a227cc26fef7c398ae9b241311b.patch | git apply && \
+    #    curl -s https://github.com/kubeovn/ovs/commit/6a4dd2f4b9311a227cc26fef7c398ae9b241311b.patch | git apply && \
     # compile without avx512
-    if [ "$ARCH" = "amd64" -a "$NO_AVX512" = "true" ]; then curl -s https://github.com/kubeovn/ovs/commit/f61283c8934589fe6de2b1e86041204dfc31a3e3.patch | git apply; fi && \
+    #    if [ "$ARCH" = "amd64" -a "$NO_AVX512" = "true" ]; then curl -s https://github.com/kubeovn/ovs/commit/f61283c8934589fe6de2b1e86041204dfc31a3e3.patch | git apply; fi && \
     ./boot.sh && \
     ./configure && \
     rm -rf .git && \
@@ -46,25 +46,25 @@ RUN dpkg -i /usr/src/python3-openvswitch*.deb
 RUN cd /usr/src/ && git clone --branch v22.09.1 --depth=1 https://github.com/ovn-org/ovn.git && \
     cd ovn && \
     # python: Rename build related code to ovs_build_helpers.
-    curl -s https://github.com/kubeovn/ovn/commit/9d961aec6fd7ef3e3002bc34e285833279e989c2.patch | git apply && \
+    #    curl -s https://github.com/kubeovn/ovn/commit/9d961aec6fd7ef3e3002bc34e285833279e989c2.patch | git apply && \
     # fix ssl listen address
-    curl -s https://github.com/kubeovn/ovn/commit/dca043b2c35756fd370214fc40d61f755bd3a66f.patch | git apply && \
+    #    curl -s https://github.com/kubeovn/ovn/commit/dca043b2c35756fd370214fc40d61f755bd3a66f.patch | git apply && \
     # ovn-controller: Add a generic way to check if the daemon started recently.
     # curl -s https://github.com/kubeovn/ovn/commit/54c478d38ec31c900d54d29c557bf414f5194baf.patch | git apply && \
     # patch.c: Avoid patch interface deletion & recreation during restart.
     # curl -s https://github.com/kubeovn/ovn/commit/03a46942b9e14d77a23313c193fe062ccafa4769.patch | git apply && \
     # change hash type from dp_hash to hash with field src_ip
-    curl -s https://github.com/kubeovn/ovn/commit/168a3f20579b720370f137c82c04cf3b1a9811e2.patch | git apply && \
+    #    curl -s https://github.com/kubeovn/ovn/commit/168a3f20579b720370f137c82c04cf3b1a9811e2.patch | git apply && \
     # set ether dst addr for dnat on logical switch
-    curl -s https://github.com/kubeovn/ovn/commit/c1d265adc1b148a4c3fb07b9e1b172e1fdf99be4.patch | git apply && \
+    #    curl -s https://github.com/kubeovn/ovn/commit/c1d265adc1b148a4c3fb07b9e1b172e1fdf99be4.patch | git apply && \
     # modify src route priority
-    curl -s https://github.com/kubeovn/ovn/commit/ab0818fed95fa3633f8c52e4afb1f8c19ff5ef1f.patch | git apply && \
+    #    curl -s https://github.com/kubeovn/ovn/commit/ab0818fed95fa3633f8c52e4afb1f8c19ff5ef1f.patch | git apply && \
     # fix reaching resubmit limit in underlay
-    curl -s https://github.com/kubeovn/ovn/commit/8b5084a55ca3f68f46530f43310ae2eae74322d2.patch | git apply && \
+    #    curl -s https://github.com/kubeovn/ovn/commit/8b5084a55ca3f68f46530f43310ae2eae74322d2.patch | git apply && \
     # do not remove LB if vips is empty
-    curl -s https://github.com/kubeovn/ovn/commit/472809ebc83588cf321935804f171b271fd81476.patch | git apply && \
+    #    curl -s https://github.com/kubeovn/ovn/commit/472809ebc83588cf321935804f171b271fd81476.patch | git apply && \
     # ovn-controller: do not send GARP on localnet for Kube-OVN ports
-    curl -s https://github.com/kubeovn/ovn/commit/1792621bf33a661d66ca47620871668267e3e521.patch | git apply && \
+    #    curl -s https://github.com/kubeovn/ovn/commit/1792621bf33a661d66ca47620871668267e3e521.patch | git apply && \
     sed -i 's/OVN/ovn/g' debian/changelog && \
     rm -rf .git && \
     ./boot.sh && \

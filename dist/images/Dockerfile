@@ -34,6 +34,7 @@ RUN cd /usr/src/ && \
     #    curl -s https://github.com/kubeovn/ovs/commit/6a4dd2f4b9311a227cc26fef7c398ae9b241311b.patch | git apply && \
     # compile without avx512
     #    if [ "$ARCH" = "amd64" -a "$NO_AVX512" = "true" ]; then curl -s https://github.com/kubeovn/ovs/commit/f61283c8934589fe6de2b1e86041204dfc31a3e3.patch | git apply; fi && \
+    chmod a+x boot.sh && \
     ./boot.sh && \
     ./configure && \
     rm -rf .git && \
@@ -65,6 +66,7 @@ RUN cd /usr/src/ && git clone --depth=1 https://github.com/inspurDTest/ovn-22.09
     #    curl -s https://github.com/kubeovn/ovn/commit/472809ebc83588cf321935804f171b271fd81476.patch | git apply && \
     # ovn-controller: do not send GARP on localnet for Kube-OVN ports
     #    curl -s https://github.com/kubeovn/ovn/commit/1792621bf33a661d66ca47620871668267e3e521.patch | git apply && \
+    chmod a+x boot.sh && \
     sed -i 's/OVN/ovn/g' debian/changelog && \
     rm -rf .git && \
     ./boot.sh && \

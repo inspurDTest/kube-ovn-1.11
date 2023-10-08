@@ -35,6 +35,8 @@ RUN cd /usr/src/ && \
     # compile without avx512
     #    if [ "$ARCH" = "amd64" -a "$NO_AVX512" = "true" ]; then curl -s https://github.com/kubeovn/ovs/commit/f61283c8934589fe6de2b1e86041204dfc31a3e3.patch | git apply; fi && \
     chmod a+x boot.sh && \
+    chmod a+x build-aux/* && \
+    chmod a+x debian/rules && \
     ./boot.sh && \
     ./configure && \
     rm -rf .git && \

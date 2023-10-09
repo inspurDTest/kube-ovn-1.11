@@ -290,4 +290,3 @@ jobs:
           docker push inspurwyd/centos7-compile-dev:$TAG-x86
           # docker push kubeovn/centos8-compile:$TAG-x86
           # docker push kubeovn/centos8-compile-dev:$TAG-x86
- 

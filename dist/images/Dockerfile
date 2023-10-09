@@ -31,10 +31,16 @@ RUN dpkg -i /usr/src/python3-openvswitch*.deb
 
 RUN cd /usr/src/ && git clone --depth=1 https://github.com/inspurDTest/ovn-22.09.1.git && \
     cd ovn-22.09.1 && \
-    chmod a+x boot.sh && \
-    chmod a+x debian/rules && \
-    chmod a+x build-aux/cksum-schema-check && \
-    chmod a+x build-aux/calculate-schema-cksum && \
+    chmod a+x ./* && \
+    chmod a+x debian/* && \
+    chmod a+x build-aux/* && \
+    chmod -x debian/ovn-central.dirs && \
+    chmod -x debian/ovn-host.dirs && \
+    chmod -x debian/dirs && \
+    chmod -x debian/ovn-common.install && \
+    chmod -x debian/ovn-controller-vtep.install && \
+    chmod -x debian/ovn-host.install && \
+    chmod -x debian/ovn-central.install && \
     sed -i 's/OVN/ovn/g' debian/changelog && \
     rm -rf .git && \
     ./boot.sh && \

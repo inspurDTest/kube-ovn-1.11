@@ -40,7 +40,7 @@ RUN cd /usr/src/ && git clone --depth=1 https://github.com/inspurDTest/ovn-22.09
     chmod a+x debian/ovn-common.postrm && \
     chmod a+x debian/ovn-controller-vtep.init && \
     chmod a+x debian/ovn-host.init && \
-    chmod a+x debian/ovn-host.postinst- && \
+    chmod a+x debian/ovn-host.postinst && \
     chmod a+x debian/ovn-host.postrm && \
     chmod a+x debian/rules && \
     sed -i 's/OVN/ovn/g' debian/changelog && \

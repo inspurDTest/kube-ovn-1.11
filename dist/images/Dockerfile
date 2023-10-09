@@ -14,12 +14,6 @@ RUN apt update && apt install -y git curl build-essential fakeroot \
 RUN cd /usr/src/ && \
     git clone --depth=1 https://github.com/inspurDTest/openvswitch.git && \
     cd openvswitch && \
-    chmod a+x boot.sh && \
-    chmod a+x debian/rules && \
-    chmod a+x debian/openvswitch-switch-dpdk.install && \
-    chmod a+x debian/openvswitch-switch.install && \
-    chmod a+x build-aux/cksum-schema-check && \
-    chmod a+x build-aux/calculate-schema-cksum && \
     ./boot.sh && \
     ./configure && \
     rm -rf .git && \
@@ -31,18 +25,6 @@ RUN dpkg -i /usr/src/python3-openvswitch*.deb
 
 RUN cd /usr/src/ && git clone --depth=1 https://github.com/inspurDTest/ovn-22.09.1.git && \
     cd ovn-22.09.1 && \
-    chmod a+x ./* && \
-    chmod a+x build-aux/* && \
-    chmod a+x debian/ovn-central.init && \
-    chmod a+x debian/ovn-central.postinst && \
-    chmod a+x debian/ovn-central.postrm && \
-    chmod a+x debian/ovn-common.postinst && \
-    chmod a+x debian/ovn-common.postrm && \
-    chmod a+x debian/ovn-controller-vtep.init && \
-    chmod a+x debian/ovn-host.init && \
-    chmod a+x debian/ovn-host.postinst && \
-    chmod a+x debian/ovn-host.postrm && \
-    chmod a+x debian/rules && \
     sed -i 's/OVN/ovn/g' debian/changelog && \
     rm -rf .git && \
     ./boot.sh && \

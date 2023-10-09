@@ -220,6 +220,10 @@ jobs:
     name: Push Images
     needs:
       - build-centos-compile
+      - build-kube-ovn
+      - build-kube-ovn-base
+      - build-vpc-nat-gateway
+      - build-centos-compile
     if: always() && !contains(needs.*.result, 'failure') && !contains(needs.*.result, 'cancelled')
     runs-on: ubuntu-22.04
     steps:

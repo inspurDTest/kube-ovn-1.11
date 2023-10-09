@@ -264,17 +264,13 @@ jobs:
           sudo apt-get update
           sudo apt-get install trivy
           make scan
+         
 
       - name: Push
-        if: github.ref_name == github.event.repository.default_branch || startsWith(github.ref_name, 'release-')
-        env:
-          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-          COMMIT: ${{ github.sha }}
         run: |
           cat VERSION
           TAG=$(cat VERSION) 
-          docker login -u inspurwyd  -p  dckr_pat_yMRt21vCZj0PlDl14xJiqSOHeV
+          docker login -u inspurwyd  -p  dckr_pat_yMRt21vCZj0PlDl14xJiqSOHeVg
           docker tag kubeovn/kube-ovn:$TAG inspurwyd/kube-ovn-dev:$COMMIT-x86
           docker tag kubeovn/kube-ovn:$TAG inspurwyd/kube-ovn:$TAG-x86
           docker tag kubeovn/kube-ovn:$TAG-debug inspurwyd/kube-ovn:$TAG-debug-x86

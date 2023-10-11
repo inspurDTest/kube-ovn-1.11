@@ -259,5 +259,3 @@ jobs:
           docker push inspurwyd/kube-ovn:$TAG-x86
 
         
-
-

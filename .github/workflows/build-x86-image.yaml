@@ -36,17 +36,7 @@ jobs:
         with:
           fetch-depth: 2
 
-      - name: Build
-        id: build 
-        run: |
-            make base-amd64
-            make base-tar-amd64
-  
-      - name: Upload base images to artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: kube-ovn-base
-          path: image-amd64.tar
+     
 
   build-kube-ovn:
     name: Build kube-ovn

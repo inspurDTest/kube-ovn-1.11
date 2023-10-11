@@ -36,15 +36,6 @@ jobs:
         with:
           fetch-depth: 2
 
-      - id: check
-        run: |
-          if [ ${{ github.event_name }} != 'pull_request' ]; then
-            exit
-          fi
-          if git diff --name-only HEAD^ HEAD | grep -q ^dist/images/Dockerfile.base; then
-            echo buildx=1 >> "$GITHUB_OUTPUT"
-          fi
-
       - uses: docker/setup-buildx-action@v2
         if: steps.check.outputs.buildx == 1
 

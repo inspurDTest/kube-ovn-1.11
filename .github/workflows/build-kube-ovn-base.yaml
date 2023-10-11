@@ -54,15 +54,11 @@ jobs:
         with:
           name: image-amd64
 
-      - name: Download image
-        uses: actions/download-artifact@v3
-        with:
-          name: image-arm64
 
       - name: Load Image
         run: |
           docker load --input image-amd64.tar
-          docker load --input image-arm64.tar
+ 
 
       - name: Push
         run: |
@@ -71,9 +67,5 @@ jobs:
           docker login -u inspurwyd  -p  dckr_pat_yMRt21vCZj0PlDl14xJiqSOHeVg
           
           docker tag kubeovn/kube-ovn-base:$TAG-amd64 inspurwyd/kube-ovn-base:$TAG-amd64
-          docker tag kubeovn/kube-ovn-base:$TAG-arm64 inspurwyd/kube-ovn-base:$TAG-arm64
           docker images
-          docker push inspurwyd/kube-ovn-base:$TAG-amd64 
-          docker push inspurwyd/kube-ovn-base:$TAG-arm64
-          docker manifest create inspurwyd/kube-ovn-base:$TAG inspurwyd/kube-ovn-base:$TAG-amd64 inspurwyd/kube-ovn-base:$TAG-arm64
-          docker manifest push inspurwyd/kube-ovn-base:$TAG
+          docker push inspurwyd/kube-ovn-base:$TAG-amd64

@@ -274,4 +274,7 @@ jobs:
           docker tag kubeovn/kube-ovn:$TAG inspurwyd/kube-ovn:$TAG-x86
           docker images
           docker push inspurwyd/kube-ovn:$TAG-x86
+
         
+
+

@@ -51,9 +51,7 @@ build-go-arm:
 .PHONY: build-kube-ovn
 build-kube-ovn: build-go
 	docker build -t $(REGISTRY)/kube-ovn:$(RELEASE_TAG) --build-arg VERSION=$(RELEASE_TAG) -f dist/images/Dockerfile dist/images/
-	docker build -t $(REGISTRY)/kube-ovn:$(RELEASE_TAG)-no-avx512 --build-arg BASE_TAG=$(RELEASE_TAG)-no-avx512 -f dist/images/Dockerfile dist/images/
-	docker build -t $(REGISTRY)/kube-ovn:$(DEBUG_TAG) --build-arg BASE_TAG=$(DEBUG_TAG) -f dist/images/Dockerfile dist/images/
-	docker build -t $(REGISTRY)/kube-ovn:$(RELEASE_TAG)-dpdk -f dist/images/Dockerfile.dpdk dist/images/
+
 
 .PHONY: build-dev
 build-dev: build-go

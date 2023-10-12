@@ -586,3 +586,4 @@ clean:
 .PHONY: changelog
 changelog:
 	./hack/changelog.sh > CHANGELOG.md
+	

@@ -36,8 +36,6 @@ jobs:
         with:
           fetch-depth: 2
 
-     
-
   build-kube-ovn:
     name: Build kube-ovn
     runs-on: ubuntu-22.04
@@ -245,7 +243,9 @@ jobs:
           TAG=$(cat VERSION) 
           docker login -u inspurwyd  -p  dckr_pat_yMRt21vCZj0PlDl14xJiqSOHeVg
           docker tag kubeovn/kube-ovn:$TAG inspurwyd/kube-ovn:$TAG-x86
+          docker tag kubeovn/kube-ovn:$TAG-debug inspurwyd/kube-ovn:$TAG-debug-x86
           docker images
           docker push inspurwyd/kube-ovn:$TAG-x86
+          docker push inspurwyd/kube-ovn:$TAG-debug-x86
 
         

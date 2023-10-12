@@ -83,7 +83,8 @@ base-arm64:
 .PHONY: image-kube-ovn
 image-kube-ovn: build-go
 	docker buildx build --platform linux/amd64 -t $(REGISTRY)/kube-ovn:$(RELEASE_TAG) --build-arg VERSION=$(RELEASE_TAG) -o type=docker -f dist/images/Dockerfile dist/images/
-	
+	docker buildx build --platform linux/amd64 -t $(REGISTRY)/kube-ovn:$(DEBUG_TAG) --build-arg VERSION=$(DEBUG_TAG) -o type=docker -f dist/images/Dockerfile dist/images/
+
 .PHONY: image-vpc-nat-gateway
 image-vpc-nat-gateway:
 	docker buildx build --platform linux/amd64 -t $(REGISTRY)/vpc-nat-gateway:$(RELEASE_TAG) -o type=docker -f dist/images/vpcnatgateway/Dockerfile dist/images/vpcnatgateway
@@ -116,7 +117,7 @@ push-release: release
 
 .PHONY: tar-kube-ovn
 tar-kube-ovn:
-	docker save $(REGISTRY)/kube-ovn:$(RELEASE_TAG) -o kube-ovn.tar
+	docker save $(REGISTRY)/kube-ovn:$(RELEASE_TAG)  $(REGISTRY)/kube-ovn:$(DEBUG_TAG) -o kube-ovn.tar
 
 .PHONY: tar-vpc-nat-gateway
 tar-vpc-nat-gateway:

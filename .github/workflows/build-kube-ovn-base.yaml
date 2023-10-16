@@ -44,6 +44,7 @@ jobs:
   push:
     needs:
       - build-amd64
+      - build-arm64
     name: push
     runs-on: ubuntu-22.04
     steps:

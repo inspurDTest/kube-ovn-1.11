@@ -141,7 +141,7 @@ base-tar-amd64-dpdk:
 
 .PHONY: base-tar-arm64
 base-tar-arm64:
-	docker save $(REGISTRY)/kube-ovn-base:$(RELEASE_TAG)-arm64 $(REGISTRY)/kube-ovn-base:$(     )-arm64 -o image-arm64.tar
+	docker save $(REGISTRY)/kube-ovn-base:$(RELEASE_TAG)-arm64 $(REGISTRY)/kube-ovn-base:$(DEBUG_TAG)-arm64 -o image-arm64.tar
 
 define docker_ensure_image_exists
 	if ! docker images --format "{{.Repository}}:{{.Tag}}" | grep "^$(1)$$" >/dev/null; then \

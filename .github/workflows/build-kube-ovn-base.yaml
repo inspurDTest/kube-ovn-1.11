@@ -55,6 +55,10 @@ jobs:
         with:
           name: image-amd64
 
+      - name: Download image
+        uses: actions/download-artifact@v3
+        with:
+          name: image-arm64
 
       - name: Load Image
         run: |

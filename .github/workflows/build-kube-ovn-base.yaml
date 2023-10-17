@@ -59,7 +59,7 @@ jobs:
       - name: Load Image
         run: |
           docker load --input image-amd64.tar
- 
+          docker load --input image-arm64.tar
 
       - name: Push
         run: |
@@ -69,6 +69,13 @@ jobs:
           
           docker tag kubeovn/kube-ovn-base:$TAG-amd64 inspurwyd/kube-ovn-base:$TAG-amd64
           docker tag kubeovn/kube-ovn-base:$TAG-debug-amd64 inspurwyd/kube-ovn-base:$TAG-debug-amd64
+          
+          docker tag kubeovn/kube-ovn-base:$TAG-arm64 inspurwyd/kube-ovn-base:$TAG-arm64
+          docker tag kubeovn/kube-ovn-base:$TAG-debug-arm64 inspurwyd/kube-ovn-base:$TAG-debug-arm64
+          
           docker images
           docker push inspurwyd/kube-ovn-base:$TAG-amd64
           docker push inspurwyd/kube-ovn-base:$TAG-debug-amd64
+          
+          docker push inspurwyd/kube-ovn-base:$TAG-arm64
+          docker push inspurwyd/kube-ovn-base:$TAG-debug-arm64

@@ -19,7 +19,7 @@ RUN cd /usr/src/ && \
     rm -rf .git && \
     CONFIGURE_OPTS='' && \
     if [ "$ARCH" = "amd64" ]; then CONFIGURE_OPTS='CFLAGS="-O2 -g -msse4.2 -mpopcnt -fPIC"'; fi && \
-    make -j 4 DATAPATH_CONFIGURE_OPTS='--prefix=/usr' EXTRA_CONFIGURE_OPTS=$CONFIGURE_OPTS DEB_BUILD_OPTIONS='parallel=8 nocheck nodpdk' && \
+    make -j 4 --prefix=/usr configure_opts=$CONFIGURE_OPTS  -Dparallel=8 -Dnocheck -Dnodpdk && \
     make install
 
 RUN cd /usr/src/ && \
@@ -34,7 +34,7 @@ RUN cd /usr/src/ && git clone --depth=1 https://github.com/inspurDTest/ovn-22.09
     ./configure --with-ovs-source=/usr/src/openvswitch && \
     CONFIGURE_OPTS='' && \
     if [ "$ARCH" = "amd64" ]; then CONFIGURE_OPTS="$CONFIGURE_OPTS CFLAGS='-O2 -g -msse4.2 -mpopcnt -fPIC'"; fi && \
-    make -j 4 EXTRA_CONFIGURE_OPTS=$CONFIGURE_OPTS DEB_BUILD_OPTIONS='parallel=8 nocheck' && \
+    make -j 4 configure_opts=$CONFIGURE_OPTS -Dparallel=8 -Dnocheck && \
     make install
 
 ARG DEBIAN_FRONTEND=noninteractive

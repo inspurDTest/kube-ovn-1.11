@@ -240,3 +240,4 @@ jobs:
           docker images
           docker push inspurwyd/kube-ovn:$TAG-x86
           docker push inspurwyd/kube-ovn:$TAG-debug-x86
+

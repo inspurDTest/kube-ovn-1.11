@@ -1,5 +1,5 @@
 # syntax = docker/dockerfile:experimental
-FROM ubuntu:22.04
+FROM ubuntu:22.04 as 
 
 ARG ARCH
 ARG NO_AVX512=false
@@ -60,8 +60,6 @@ ENV KUBE_VERSION="v1.28.2"
 RUN curl -L https://dl.k8s.io/${KUBE_VERSION}/kubernetes-client-linux-${ARCH}.tar.gz | tar -xz -C . && cp ./kubernetes/client/bin/kubectl /usr/bin/kubectl \
  && chmod +x /usr/bin/kubectl && rm -rf ./kubernetes
 
-RUN --mount=type=bind,target=/packages,from=ovs-builder,source=/packages  \
-    rm -rf /var/lib/openvswitch/pki/
 
 ENV DUMB_INIT_VERSION="1.2.5"
 RUN dump_arch="x86_64"; \
@@ -69,14 +67,10 @@ RUN dump_arch="x86_64"; \
     curl -sSf -L --retry 5 -o /usr/bin/dumb-init https://github.com/Yelp/dumb-init/releases/download/v${DUMB_INIT_VERSION}/dumb-init_${DUMB_INIT_VERSION}_${dump_arch} && \
     chmod +x /usr/bin/dumb-init
 
-RUN --mount=type=bind,target=/packages,from=ovs-builder,source=/packages  \
-    rm -rf /var/lib/openvswitch/pki/
-
 ARG DEBUG=false
-RUN --mount=type=bind,target=/packages,from=ovs-builder,source=/packages \
-    if [ "${DEBUG}" = "true" ]; then \
-        apt update && apt install -y --no-install-recommends gdb valgrind && \
-        rm -rf /var/lib/apt/lists/* ; \
-    fi
+if [ "${DEBUG}" = "true" ]; then \
+    apt update && apt install -y --no-install-recommends gdb valgrind && \
+    rm -rf /var/lib/apt/lists/* ; \
+fi
 
 ENTRYPOINT ["/usr/bin/dumb-init", "--"]

@@ -63,4 +63,3 @@ jobs:
           docker images
           docker push inspurwyd/kube-ovn:$TAG-arm
           docker push inspurwyd/kube-ovn:$TAG-debug-arm
-          

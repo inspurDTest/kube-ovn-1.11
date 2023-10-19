@@ -15,9 +15,8 @@ RUN cd /usr/src/ && \
     git clone --depth=1 https://github.com/inspurDTest/openvswitch.git && \
     cd openvswitch && \
     ./boot.sh && \
-    CONFIGURE_OPTS='' && \
-    if [ "$ARCH" = "amd64" ]; then CONFIGURE_OPTS='CFLAGS="-O2 -fPIC"'; fi && \
-    ./configure --without-dpdk $CONFIGURE_OPTS && \
+    if [ "$ARCH" = "amd64" ]; then ./configure --without-dpdk CFLAGS="-O2 -g -msse4.2 -mpopcnt -fPIC"; else \
+    ./configure --without-dpdk; fi && \
     rm -rf .git && \
     make -j 8 && \
     make install
@@ -31,9 +30,8 @@ RUN cd /usr/src/ && git clone --depth=1 https://github.com/inspurDTest/ovn-22.09
     sed -i 's/OVN/ovn/g' debian/changelog && \
     rm -rf .git && \
     ./boot.sh && \
-    CONFIGURE_OPTS='' && \
-    if [ "$ARCH" = "amd64" ]; then CONFIGURE_OPTS="$CONFIGURE_OPTS CFLAGS='-O2 -fPIC'"; fi && \
-    ./configure --with-ovs-source=/usr/src/openvswitch $CONFIGURE_OPTS && \
+    if [ "$ARCH" = "amd64" ]; then ./configure --with-ovs-source=/usr/src/openvswitch CFLAGS="-O2 -g -msse4.2 -mpopcnt -fPIC"; else \
+    ./configure --with-ovs-source=/usr/src/openvswitch; fi && \
     make -j 8 && \
     make install
 

@@ -68,9 +68,9 @@ RUN dump_arch="x86_64"; \
     chmod +x /usr/bin/dumb-init
 
 ARG DEBUG=false
-if [ "${DEBUG}" = "true" ]; then \
-    apt update && apt install -y --no-install-recommends gdb valgrind && \
-    rm -rf /var/lib/apt/lists/* ; \
-fi
+RUN if [ "${DEBUG}" = "true" ]; then \
+        apt update && apt install -y --no-install-recommends gdb valgrind && \
+        rm -rf /var/lib/apt/lists/* ; \
+    fi
 
 ENTRYPOINT ["/usr/bin/dumb-init", "--"]
